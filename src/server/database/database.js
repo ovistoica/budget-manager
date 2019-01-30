@@ -10,14 +10,14 @@ mongoose.set('debug', process.env.NODE_ENV !== 'production');
 
 mongoose.Promise = global.Promise;
 
-var database_string = process.env.WYLIODRIN_MONGODB_RESOURCE;
+var database_string = process.env.BUDGET_MONGODB_RESOURCE;
 
 if (database_string && database_string.trim().length > 0) {
 	debug('Using Budget Manager Database');
 } else {
 	debug('Using BUDGET_DATABASE');
-	database_string = 'mongodb://' + process.env.WYLIODRIN_MONGODB_USER + ':' + process.env.WYLIODRIN_MONGODB_PASSWORD +
-		'@' + process.env.WYLIODRIN_MONGODB_SERVER + '/' + process.env.WYLIODRIN_MONGODB_DATABASE;
+	database_string = 'mongodb://' + process.env.BUDGET_MONGODB_USER + ':' + process.env.BUDGET_MONGODB_PASSWORD +
+		'@' + process.env.BUDGET_MONGODB_SERVER + '/' + process.env.BUDGET_MONGODB_DATABASE;
 	debug(database_string);
 }
 
@@ -59,6 +59,3 @@ try {
 var user = require('./user.js');
 
 module.exports.user = user;
-module.exports.workspace = workspace;
-module.exports.course = course;
-module.exports.board = board;

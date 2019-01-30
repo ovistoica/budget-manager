@@ -4,9 +4,9 @@
     "version": "0.1.0",
     "private": true,
     "scripts": {
-        "run": "nodemon ./src/server/bin/server.js",
-        "debug": "DEBUG=* nodemon ./src/server/bin/server.js",
-        "start": "grunt && nodemon ./build/server/bin/server.js"
+        "run": "nodemon ./src/server/server.js",
+        "debug": "DEBUG=* nodemon ./src/server/server.js",
+        "start": "grunt && nodemon ./build/server/server.js"
     },
     "dependencies": {
         "async-redis": "^1.1.4",
