@@ -1,0 +1,32 @@
+# Username for the server hosting the database
+BUDGET_MONGODB_USER=
+
+# Password for the server hosting the database 
+BUDGET_MONGODB_PASSWORD=
+
+# address and port of the server hosting the database
+BUDGET_MONGODB_SERVER=
+
+# Name of the database in use
+BUDGET_MONGODB_DATABASE=
+
+# Debug 
+DEBUG=
+
+# Port in use. Default is 3000
+PORT=
+
+# name 
+BUDGET_NAME=
+
+# board offline refresh
+BUDGET_BOARD_OFFLINE_TIMEOUT_REFRESH=
+
+# Local file that stores logs
+BUDGET_LOCAL_LOGS=
+
+# Run server
+BUDGET_RUN_SERVER=http://localhost:8000
+
+# Server url
+BUDGET_SERVER_URL=http://localhost:3000

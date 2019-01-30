@@ -1,2 +1,3 @@
 # budget-manager
-Budget manager for developing sweet skills in Node.js and Vue.js. Also I'm bad with money
+
+Web budget manager made for developing sweet Node and Vue skills. Also I'm bad with money
