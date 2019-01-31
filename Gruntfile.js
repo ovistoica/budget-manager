@@ -2,9 +2,6 @@
 
 var libs = ['bootstrap-notify', 'bootstrap', 'vue', 'bootbox', 'lodash', 'vuex', 'vue-resource', 'vue-router', 'jquery', 'xterm', 'xterm/lib/addons/fit/fit', 'reconnectingwebsocket', 'md5', 'moment', 'xterm', 'vue2-ace-editor', 'liquor-tree'];
 
-var fs = require ('fs');
-var path = require ('path');
-
 module.exports = function(grunt) {
 	var tasks = {
 		browserify: {

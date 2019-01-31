@@ -25,7 +25,6 @@ publicApp.post('/login', async function(req, res, next) {
 			var token = tokens.createToken();
 			await tokens.set(token, user.userId);
 			req.debug(debug, 'User ' + user.username + ':' + user.userId + ' logged in');
-
 			res.status(200).send({ err: 0, token: token });
 		} else {
 			req.debug(debug, 'User or password are not correct');
@@ -36,6 +35,35 @@ publicApp.post('/login', async function(req, res, next) {
 		req.debug(debug, 'All fields are required');
 		e = error.badRequest('All fields are required');
 		next(e);
+	}
+});
+
+publicApp.post('/register', async function(req, res, next) {
+	req.debug(debug, 'Accessed the users/register route');
+	var e;
+	var username = req.body.username;
+	var password = req.body.password;
+	var email = req.body.email;
+	var firstName = req.body.firstName;
+	var lastName = req.body.lastName;
+	var role = 'user';
+	try {
+		req.debug(debug, 'Creating new user');
+		var user = await db.user.create(username, password, firstName, lastName, email, role);
+		if (user) {
+			delete user._id;
+			res.status(200).send({ err: 0, user: user });
+		}
+	} catch (err) {
+		if (err.code !== 11000) { // User already exists
+			req.debug(debug, 'Creation failed', { requestId: req.requestId, error: err });
+			e = error.serverError();
+			next(e);
+		} else {
+			req.debug(debug, 'Creation failed, user exists', { requestId: req.requestId, error: err });
+			e = error.notAcceptable('User already exists');
+			next(e);
+		}
 	}
 });
 
@@ -71,6 +99,50 @@ async function security(req, res, next) {
 		next(e);
 	}
 }
+
+privateApp.get('/logout', async function(req, res, next) {
+	let e;
+	req.debug(debug, 'User requested to log out');
+	try {
+		req.debug(debug, 'Removing token from redis server for: ' + req.user.userId);
+		await tokens.del(req.token);
+	} catch (err) {
+		req.debug(debug, 'Something went wrong with removing token');
+		e = error.serverError(err);
+		return next(e);
+	}
+	res.status(200).send({ err: 0 });
+});
+
+
+adminApp.post('/create', async function(req, res, next) {
+	req.debug(debug, 'User :' + req.user.userId + ' accessed the users/create route');
+	var e;
+	var username = req.body.username;
+	var password = req.body.password;
+	var email = req.body.email;
+	var firstName = req.body.firstName;
+	var lastName = req.body.lastName;
+	var role = req.body.role;
+	try {
+		req.debug(debug, 'Creating new user');
+		var user = await db.user.create(username, password, firstName, lastName, email, role);
+		if (user) {
+			delete user._id;
+			res.status(200).send({ err: 0, user: user });
+		}
+	} catch (err) {
+		if (err.code !== 11000) { // User already exists
+			req.debug(debug, 'Creation failed', { requestId: req.requestId, error: err });
+			e = error.serverError();
+			next(e);
+		} else {
+			req.debug(debug, 'Creation failed, user exists', { requestId: req.requestId, error: err });
+			e = error.notAcceptable('User already exists');
+			next(e);
+		}
+	}
+});
 
 module.exports.publicRoutes = publicApp;
 module.exports.security = security;

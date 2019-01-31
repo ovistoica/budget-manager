@@ -219,7 +219,8 @@ var user = {
 	findByUserIdAndPassword,
 	resetPassword,
 	listUsers,
-	findOneOrMoreByUserId
+	findOneOrMoreByUserId,
+	encryptPassword
 };
 
 module.exports = user;
