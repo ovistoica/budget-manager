@@ -9,6 +9,7 @@ module.exports = {
 		NAME: 'Budget Manager',
 		LOGIN: '/login.html',
 		ERROR: './error.html',
+		HOME: './home.html',
 		//TODO: Other properties here
 		roles: [
 			{

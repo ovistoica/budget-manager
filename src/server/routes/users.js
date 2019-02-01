@@ -144,6 +144,25 @@ adminApp.post('/create', async function(req, res, next) {
 	}
 });
 
+privateApp.get('/info', async function(req, res, next) {
+	var e;
+	req.debug(debug, 'User: ' + req.user.userId + 'requested /info');
+	req.debug(debug, 'Searching for user: ' + req.user.userId);
+	try {
+		var user = await db.user.findByUserId(req.user.userId);
+	} catch (err) {
+		req.debug(debug, 'Got error searching for user: ' + req.user.userId);
+		e = error.serverError(err);
+		next(e);
+	}
+	delete user.password;
+	delete user._id;
+	delete user.__v;
+	res.status(200).send({ err: 0, user });
+});
+
+//TODO: /user/info
+
 module.exports.publicRoutes = publicApp;
 module.exports.security = security;
 module.exports.privateRoutes = privateApp;

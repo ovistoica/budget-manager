@@ -91,6 +91,34 @@ module.exports = {
 				return false;
 			}
 		},
+		async updateUser (store)
+		{
+			try
+			{
+				let response = await Vue.http.get(setup.API+'/users/info');
+				if (response.data.err === 0)
+				{
+					store.commit ('setUser', response.data.user);
+					return true;
+				}
+			}
+			catch (e)
+			{
+				if (e.status === 401)
+				{
+					store.commit ('setUser', null);
+					store.commit ('setToken', null);
+				} else if (e.status === 0) {
+					Vue.toast.connectionError();
+					return false;
+				} else {
+					Vue.toast.warning({title:'Warning!', message:'The token has expired.<br>Server error: ' + e.body.err});
+					store.commit ('setUser', null);
+					store.commit ('setToken', null);
+					return false;
+				}
+			}
+		},
 	},
 	mutations: {
 		setToken(state, value) {
